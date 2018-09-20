@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from flask import Flask, request, jsonify
@@ -17,13 +18,14 @@ def demo():
 
     task_id = str(uuid.uuid4())
 
-    redis_store.rpush(queue_name, {
+    redis_store.rpush(queue_name, json.dumps({
         'task_id': task_id,
         'task_data': data
-    })
+    }))
 
     _, msg = redis_store.blpop(task_id)
-    return jsonify(data=msg.get('task_result'))
+    
+    return jsonify(data=json.loads(msg))
 
 
 if __name__ == '__main__':

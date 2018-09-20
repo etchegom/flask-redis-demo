@@ -17,16 +17,15 @@ def main(queue_name):
         print("waiting for message in queue \"{}\" ...".format(queue_name))
         _, msg = redis.blpop(queue_name)
         print("received message {}".format(msg))
-        print(type(msg))
 
         content = json.loads(msg)
         task_id = content.get('task_id')
         task_data = content.get('task_data')
 
         print("send task result to {}".format(task_id))
-        redis.rpush(task_id, {
+        redis.rpush(task_id, json.dumps({
             'task_result': task_data
-        })
+        }))
 
 
 if __name__ == '__main__':
