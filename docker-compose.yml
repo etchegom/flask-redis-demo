@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  webapp:
+    build: ./webapp
+    ports:
+      - 5000:5000
+
+  broker:
+    image: redis:4.0.11-alpine
+    ports:
+      - 6379:6379
+
+  worker_a:
+    build: ./worker
+    command: ["app.py", "--queue-name=queue_a"]
+
+  worker_b:
+    build: ./worker
+    command: ["app.py", "--queue-name=queue_b"]
