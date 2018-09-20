@@ -1,1 +1,1 @@
-REDIS_URL = "redis://redis:6379/0"
+REDIS_URL = "redis://broker:6379/0"
